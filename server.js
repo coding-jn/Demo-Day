@@ -47,6 +47,4 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 
 // launch ======================================================================
-app.listen(port, () => {
-  console.log('Server listening on port ' + port);
-});
+app.listen(port);

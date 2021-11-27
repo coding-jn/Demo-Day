@@ -5,14 +5,7 @@ module.exports = function(app, passport, db) {
 // normal routes ===============================================================
     // show the home page (will also have our login links)
     app.get('/', function(req, res) {
-            if (err) return console.log(err)
-            res.render('landing.ejs', {
-              user : req.user,
-              questionare: questionareResult,
-              goals: goalsResult,
-              charities: charityResult,
-              kindness: kindnessResult
-            })
+            res.render('landing.ejs')
           })
 
     // PROFILE SECTION =========================

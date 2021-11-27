@@ -37,7 +37,7 @@ Calender from: https://codepen.io/B8bop/pen/GhCAb
 Website from https://inovatik.com/ioniq-saas-app-website-html-template.html
 
 
- <form action="/questionare" method="post">
+ <!-- <form action="/questionare" method="post">
                                 <div id='charityGoal' class="line">Which charity goal are you most interested in funding for?</div>
                                 <input type="radio" name="charityGoal" value="Global Warming" id="charityOne" required><label for="charityOne" class='btn btn-primary btn-lg'>Global Warming</label>
                                 <input type="radio" name="charityGoal" value="Cancer Awareness" id="charityTwo"><label for="charityTwo" class='btn btn-primary btn-lg'>Cancer Awareness</label>
@@ -80,4 +80,4 @@ Website from https://inovatik.com/ioniq-saas-app-website-html-template.html
                                        </div>
                                     <button type="submit" class="form-control-submit-button">Sign up</button>
                             </form>
-                            <!-- end of sign up form -->
+                            end of sign up form -->

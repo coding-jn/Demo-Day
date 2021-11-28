@@ -1,6 +1,6 @@
 **Goal:**
 
-Create an application that generates a good deed of the day, week, or charity event of the month based on the user’s profile and form they complete. If possible, the application will recommend local events and organizations, as well as global ones depending on user preference. It will be presented in the form of a calendar but right as they log in a daily anecdote or fact will be shared with them to connect and educate them about the cause they’re supporting.
+Changing the world an app at a time - this is an application that generates a good deed of the day based on the user’s profile and form they complete. It will be presented in the form of a calendar but right as they log in a daily anecdote or fact will be shared with them to connect and educate them about the cause they’re supporting.
 
 **Acts of Kindness:** 
 
@@ -8,7 +8,9 @@ Create an application that generates a good deed of the day, week, or charity ev
 2. Buying coffee for the person behind you
 3. Genuinely compliment someone
 4. Smile at a stranger
-etc...
+
+<i>More to be added</i>
+
 
 **Charitable causes:** 
 
@@ -18,23 +20,18 @@ etc...
 4. Homelessness
 5. Mental health awareness
 
-**Global Events:**
-
-_To be added_
-
-**Local Events:**
-
-_To be added_
+<i>More to be added</i>
 
 **Wireframes:**
 1. Login
 2. Signup
-3. Home page (calendar UI)
+3. Home page (for visitors)
+4. Home page (for users)
 
 
-References:
-Calender from: https://codepen.io/B8bop/pen/GhCAb
-Website from https://inovatik.com/ioniq-saas-app-website-html-template.html
+**References:**
+* Calender from <a href="https://codepen.io/B8bop/pen/GhCAb">Codepen</a>
+* Website from <a href="https://inovatik.com/ioniq-saas-app-website-html-template.html">Inovatik</a>
 
 
  <!-- <form action="/questionare" method="post">

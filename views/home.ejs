@@ -139,18 +139,14 @@
                                         <input type="hidden" name="randomActsBudget" value="<%= match.randomActsBudget %>">
                                         <% function isToday(someDate) {%>
                                             <% var today = new Date()%>
-                                            <% if(someDate.getDate() == today.getDate() &&
+                                            <% return someDate.getDate() == today.getDate() &&
                                                 someDate.getMonth() == today.getMonth() &&
-                                                someDate.getFullYear() == today.getFullYear()){%>
-                                                <% return true %>
-                                            <%} else{%> 
-                                                <% return false %>
-                                            <%}%>
+                                                someDate.getFullYear() == today.getFullYear()%>
                                         <%}%>
 
                                         <% var goalGenerated = false%>
                                         <% for(var i=0; i<goals.length; i++){%>
-                                            <% if(goals[i].user === user.local.email && isToday(goals[i].date) === true){%>
+                                            <% if(goals[i].user === user.local.email && isToday(goals[i].date)){%>
                                                 <% goalGenerated = true%>
                                                 <input type="hidden" name="goalId" value="<%= goals[i]._id %>">
                                                 <input type="hidden" name="cost" value="<%= goals[i].amount%>">

@@ -143,12 +143,14 @@
                                                 someDate.getMonth() == today.getMonth() &&
                                                 someDate.getFullYear() == today.getFullYear()){%>
                                                 <% return true %>
-                                            <%}%> 
+                                            <%} else{%> 
+                                                <% return false %>
+                                            <%}%>
                                         <%}%>
 
                                         <% var goalGenerated = false%>
                                         <% for(var i=0; i<goals.length; i++){%>
-                                            <% if(goals[i].user === user.local.email && isToday(goals[i].date)){%>
+                                            <% if(goals[i].user === user.local.email && isToday(goals[i].date) === true){%>
                                                 <% goalGenerated = true%>
                                                 <input type="hidden" name="goalId" value="<%= goals[i]._id %>">
                                                 <input type="hidden" name="cost" value="<%= goals[i].amount%>">

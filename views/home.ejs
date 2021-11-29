@@ -147,7 +147,6 @@
                                         <% var goalGenerated = false%>
                                         <% for(var i=0; i<goals.length; i++){%>
                                             <% if(goals[i].user === user.local.email && isToday(goals[i].date)){%>
-                                                <%console.log('hi')%>
                                                 <% goalGenerated = true%>
                                                 <input type="hidden" name="goalId" value="<%= goals[i]._id %>">
                                                 <input type="hidden" name="cost" value="<%= goals[i].amount%>">
@@ -246,8 +245,8 @@
                             <div class="card-body">
                                 <h4 class="card-title">Spendings</h4>
                                 <% function isYear(someDate) {%>
-                                    <% var today = new Date() %>
-                                    <% return someDate.getFullYear() == today.getFullYear()%>
+                                    <% var year = new Date() %>
+                                    <% return someDate.getFullYear() == year.getFullYear()%>
                                 <%}%>
 
                                 <% var spendings = 0%>

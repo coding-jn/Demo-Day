@@ -139,11 +139,13 @@
                                         <input type="hidden" name="randomActsBudget" value="<%= match.randomActsBudget %>">
                                         <% function isToday(someDate) {%>
                                             <% var today = new Date()%>
-                                            <% return someDate.getDate() == today.getDate() &&
+                                            <% if(someDate.getDate() == today.getDate() &&
                                                 someDate.getMonth() == today.getMonth() &&
-                                                someDate.getFullYear() == today.getFullYear()%>
+                                                someDate.getFullYear() == today.getFullYear()){%>
+                                                <% return true %>
+                                            <%}%> 
                                         <%}%>
-                                        
+
                                         <% var goalGenerated = false%>
                                         <% for(var i=0; i<goals.length; i++){%>
                                             <% if(goals[i].user === user.local.email && isToday(goals[i].date)){%>
@@ -160,8 +162,8 @@
                                                     <p class="p-large"><%= goals[i].goal.act %></p>
                                                 <%} else{%>
                                                     <p class="p-large">You've finished your goal for today, hopefully it made you and another person smile!</p>
-                                                <%}%>
-                                            <%}%>
+                                                <%} %>
+                                            <%} %>
                                         <%} %>
                                         <% if(goalGenerated === false){%>
                                             <a href="javascript:{}" onclick="document.getElementById('generator').submit();" class="btn-solid-lg">Generate</a>

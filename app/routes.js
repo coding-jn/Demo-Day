@@ -31,7 +31,7 @@ module.exports = function(app, passport, db) {
     app.get('/questionare', isLoggedIn, function(req, res) {
         db.collection('questionare').find().toArray((err, result) => {
           if (err) return console.log(err)
-          res.render('survey.ejs', {
+          res.render('questionare.ejs', {
             user : req.user,
             questionare: result,
           })

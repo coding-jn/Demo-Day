@@ -79,6 +79,7 @@ module.exports = function(app, passport, db) {
         var action = "free act"
       }
 
+      db.collection("questionare").find({user: req.user.local.email}).toArray(function(err, questionareResult) {
       db.collection("kindness").find().toArray(function(err, kindnessResult) {
         db.collection("charities").find().toArray(function(err, charitiesResult) {
         if (err) {
@@ -88,10 +89,17 @@ module.exports = function(app, passport, db) {
         // Resolve (or fulfill) the promise with data
         var kindness = kindnessResult
         var charities = charitiesResult
+        var questionare = questionareResult
 
       // generate monetary donation (rep by 0)
       if(action === "monetary donation"){
-        var goal = charities[Math.floor(Math.random()*charities.length)]
+        var foundCharity = false
+        while(foundCharity === false){
+          var goal = charities[Math.floor(Math.random()*charities.length)]
+          if(goal.cause === questionare[0].charityGoal){
+            foundCharity = true
+          }
+        }
         var amount = Math.floor(Math.random()*req.body.monetaryDonationsBudget)
         var monetaryDonationsBudget = req.body.monetaryDonationsBudget-amount
         var randomActsBudget = req.body.randomActsBudget
@@ -136,6 +144,8 @@ module.exports = function(app, passport, db) {
     })
     })
     })
+  })
+
 
     app.put('/goals', (req, res) => {
       console.log(req.body)

@@ -29,7 +29,7 @@ module.exports = function(app, passport, db) {
     });
 
     app.get('/questionare', isLoggedIn, function(req, res) {
-        db.collection('questionare').find().toArray((err, result) => {
+        db.collection('questionare').find({user: req.user.local.email}).toArray((err, result) => {
           if (err) return console.log(err)
           res.render('questionare.ejs', {
             user : req.user,
@@ -49,14 +49,14 @@ module.exports = function(app, passport, db) {
     app.post('/questionare', (req, res) => {
       db.collection('questionare').insertOne({
           user: req.user.local.email, 
-          charityGoal: req.body.charities,
+          charityGoal: req.body.charityGoal,
           monetaryDonationsBudget: req.body.monetaryDonationsBudget, 
           randomActsBudget: req.body.randomActsBudget
         }, 
         (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
-        res.redirect('/home')
+        res.redirect('/questionare')
       })
     })
 
@@ -155,34 +155,20 @@ module.exports = function(app, passport, db) {
     })
 
     app.put('/questionare', (req, res) => {
-      console.log(req.body)
-      if(req.body.action === 'monetary donation'){
-        db.collection('questionare')
+      db.collection('questionare')
         .findOneAndUpdate({user: req.user.local.email}, {
           $set: {
-            monetaryDonationsBudget: req.body.monetaryDonationsBudget-req.body.cost, 
+            charityGoal: req.body.charityGoal,
+            monetaryDonationsBudget: req.body.monetaryDonationsBudget, 
+            randomActsBudget: req.body.randomActsBudget
           }
         }, {
           sort: {_id: -1},
           upsert: true
         }, (err, result) => {
           if (err) return res.send(err)
-          res.redirect('/home')
+          res.redirect('/questionare')
         })
-      }else if(req.body.action === 'budgeted act'){
-        db.collection('questionare')
-        .findOneAndUpdate({user: req.user.local.email}, {
-          $set: {
-            randomActsBudget: req.body.randomActsBudget-req.body.cost,
-          }
-        }, {
-          sort: {_id: -1},
-          upsert: true
-        }, (err, result) => {
-          if (err) return res.send(err)
-          res.redirect('/home')
-        })
-      }
     })
 
 // =============================================================================

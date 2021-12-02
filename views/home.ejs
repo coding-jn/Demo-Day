@@ -132,7 +132,7 @@
                                         <% }%>
                                     <%} %>
                                     <% if(isMatch === false){%>
-                                        <button type="button" href="/questionare">Take the Questionare First</button>
+                                        <a class="btn-solid-lg" href="/questionare">Take the Questionare First</a>
                                     <%} else{%>
                                         <input type="hidden" name="charityGoal" value="<%= match.charityGoal %>">
                                         <input type="hidden" name="monetaryDonationsBudget" value="<%= match.monetaryDonationsBudget %>">
@@ -154,12 +154,15 @@
                                                 <input type="hidden" name="type" value="<%= goals[i].status%>">
                                                 <% if(goals[i].action === "monetary donation" && goals[i].status != "complete"){%>  
                                                     <p class="p-large">Donate $<%= goals[i].amount%> to <%= goals[i].goal.charity %></p>
+                                                    <p class="p-large">Click on today's date on the calendar to mark the goal as complete!</p>
                                                 <%} else if(goals[i].action === "budgeted act" && goals[i].status != "complete") {%>
                                                     <p class="p-large">$<%= goals[i].amount%> to <%= goals[i].goal.act %></p>
+                                                    <p class="p-large">Click on today's date on the calendar to mark the goal as complete!</p>
                                                 <%} else if(goals[i].action === "free act" && goals[i].status != "complete") {%>
                                                     <p class="p-large"><%= goals[i].goal.act %></p>
+                                                    <p class="p-large">Click on today's date on the calendar to mark the goal as complete!</p>
                                                 <%} else{%>
-                                                    <p class="p-large">You've finished your goal for today, hopefully it made you and another person smile!<br></br>Today's goal will not be reflected in your stats until tomorrow.</p>
+                                                    <p class="p-large">You've finished your goal for today, hopefully it made you and another person smile!<br></br>Today's goal won't be reflected in your data until tomorrow.</p>
                                                 <%} %>
                                             <%} %>
                                         <%} %>
@@ -210,17 +213,21 @@
                             </div>
                             <div class="card-body">
                                 <h4 class="card-title">Completed Rate</h4>
-                                <% let completed = 0%>
-                                <% let total = 0%>
+                                <% var completed = 0%>
+                                <% var total = 0%>
                                 <% for(var i=0; i<goals.length; i++){%>
                                     <% if(goals[i].user === user.local.email && goals[i].status === 'complete' && !isToday(goals[i].date)){%>
                                         <% completed++%>
                                         <% total++%>
-                                    <%}else if (goals[i].user === user.local.email){%>
+                                    <%}else if (goals[i].user === user.local.email && !isToday(goals[i].date)){%>
                                         <% total++%>
                                     <%}%>
                                 <%}%>
-                                <p>On average, you complete <b><%= Math.floor(completed/(total-1)*100)%>%</b> of your goals</p>
+                                <% if(completed === 0) {%>
+                                    <p>On average, you complete <b><%= completed%>%</b> of your goals</p>
+                                <%} else{%>
+                                    <p>On average, you complete <b><%= Math.floor(completed/total*100)%>%</b> of your goals</p>
+                                <%}%>
                             </div>
                         </div>
                         <!-- end of card -->
@@ -232,7 +239,21 @@
                             </div>
                             <div class="card-body">
                                 <h4 class="card-title">Incompleted Rate</h4>
-                                <p>On average, you <b>don't</b> complete <b><%= Math.floor(((total-1)-completed)/(total-1)*100)%>%</b> of your goals</p>
+                                <% var incomplete = 0%>
+                                <% total = 0%>
+                                <% for(var i=0; i<goals.length; i++){%>
+                                    <% if(goals[i].user === user.local.email && goals[i].status === 'incomplete' && !isToday(goals[i].date)){%>
+                                        <% incomplete++%>
+                                        <% total++%>
+                                    <%} else if (goals[i].user === user.local.email && !isToday(goals[i].date)){%>
+                                        <% total++%>
+                                    <%}%>
+                                <%}%>
+                                <% if(incomplete === 0) {%>
+                                    <p>On average, you <b>don't</b> complete <b><%= incomplete%>%</b> of your goals</p>
+                                <%} else{%>
+                                    <p>On average, you <b>don't</b> complete <b><%= Math.floor(incomplete/total*100)%>%</b> of your goals</p>
+                                <%}%>
                             </div>
                         </div>
                         <!-- end of card -->
@@ -255,7 +276,7 @@
                                         <% spendings = spendings + goals[i].amount%>
                                     <%}%>
                                 <%}%>
-                                <p>You've spent $<%= spendings%> this year making people's days</p>
+                                <p>You've spent <b>$<%= spendings%></b> this year making people's days</p>
                             </div>
                         </div>
                         <!-- end of card -->
@@ -346,17 +367,43 @@
                             <h2>Budgeting</h2>
                             <p>Let's take a look at your spendings...</p>
                             <ul class="list-unstyled li-space-lg">
+                                <% for(var u=0; u<questionare.length; u++){%>
+                                    <% if(questionare[u].user === user.local.email){%>
                                 <li class="d-flex">
-                                    <i class="fas fa-square"></i>
-                                    <div class="flex-grow-1">Budget left: </div>
+                                    <div class="flex-grow-1">Monetary donation budget left: $<%= questionare[u].monetaryDonationsBudget%></div>
                                 </li>
                                 <li class="d-flex">
-                                    <i class="fas fa-square"></i>
-                                    <div class="flex-grow-1">Spendings on donations: </div>
+                                    <div class="flex-grow-1">Random acts of kindness budget left: $<%= questionare[u].randomActsBudget %></div>
+                                </li>
+                                <line></line>
+                                <li class="d-flex">
+                                    <div class="flex-grow-1"><strong>Total budget left: $<%= Number(questionare[u].monetaryDonationsBudget)+Number(questionare[u].randomActsBudget) %></strong></div>
+                                </li>
+                                <br></br>
+                                    <%}%>
+                                <%}%>
+                                <% function isYear(someDate) {%>
+                                    <% var year = new Date() %>
+                                    <% return someDate.getFullYear() == year.getFullYear()%>
+                                <%}%>
+
+                                <% var monetarySpendings = 0%>
+                                <% var actSpendings = 0%>
+                                <% for(var i=0; i<goals.length; i++){%>
+                                    <% if(goals[i].user === user.local.email && isYear(goals[i].date) && goals[i].status === 'complete' && goals[i].action === 'monetary donation' && !isToday(goals[i].date)){%>
+                                        <% monetarySpendings = monetarySpendings + goals[i].amount%>
+                                    <%} else if(goals[i].user === user.local.email && isYear(goals[i].date) && goals[i].status === 'complete' && goals[i].action === 'budgeted act' && !isToday(goals[i].date)){%>
+                                        <% actSpendings = actSpendings + goals[i].amount%>
+                                    <%}%>
+                                <%}%>
+                                <li class="d-flex">
+                                    <div class="flex-grow-1">Amount you've donated: $<%= monetarySpendings%></div>
                                 </li>
                                 <li class="d-flex">
-                                    <i class="fas fa-square"></i>
-                                    <div class="flex-grow-1">Spendings on acts of kindness: </div>
+                                    <div class="flex-grow-1">Amount you've spent on acts of kindness: $<%= actSpendings%></div>
+                                </li>
+                                <li class="d-flex">
+                                    <div class="flex-grow-1"><strong>Total spent: $<%= monetarySpendings+actSpendings %></strong></div>
                                 </li>
                             </ul>
                         </div> <!-- end of text-container -->

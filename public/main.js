@@ -49,4 +49,3 @@ document.getElementById('calendar_content').addEventListener('click',  function(
           })
     }
 });
-

@@ -26,9 +26,11 @@
         <link href="css/fontawesome-all.min.css" rel="stylesheet">
         <link href="css/swiper.css" rel="stylesheet">
         <link href="css/styles.css" rel="stylesheet">
-
-        <link href="css/surveystyle.css" rel="stylesheet">
         
+        <!-- Questionare -->
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <link href="css/questionare.css" rel="stylesheet">
+
         <!-- Icon  -->
         <link rel="icon" href="images/icon.png">
     </head>
@@ -82,28 +84,82 @@
                 </div> <!-- end of row -->
             </div> <!-- end of container -->
         </header> <!-- end of ex-header -->
-        <!-- end of header -->
+        <!-- end of header --> 
         
-        
-        <!-- Basic -->
-        <div class="ex-form-1 pt-5 pb-5">
+        <!-- If user is new -->
+        <% let isMatch = false %>
+        <% let match = null %>
+        <% for(var i=0; i<questionare.length; i++){%>
+            <% if(questionare[i].user === user.local.email) {%>
+                <% isMatch = true %>
+                <% match = questionare[i] %>
+            <% }%>
+        <%} %>
+        <% if(isMatch === false){%>
+            <div class="ex-form-1 pt-5 pb-5">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-6 offset-xl-3">
                         <div class="text-box mt-5 mb-5">
                             <p class="mb-4">Fill out your preferences to generate curated, random goals.</p>
-                            <form>
-                                <input id="a" type="radio" name="hopping" value="a" checked>
-                                <label for="a"><span></span>A</label>
-                                <input id="b" type="radio" name="hopping" value="b">
-                                <label for="b"><span></span>B</label>
-                                <input id="c" type="radio" name="hopping" value="c">
-                                <label for="c"><span></span>C</label>
+                            <hr/>
 
-                                <input type="number">
+                            <form action="questionare" method="post">
+                                <div class="fw-bold" id='charityGoal'>Which charity goal are you most interested in funding for?</div>
 
-                                <input type="number">
-                            </form>
+                                <div class="form-check mb-2">
+                                <input type="radio" name="charityGoal" value="Global Warming"  class="form-check-input" id="charityOne" required><label for="charityOne" class="form-check-label">Global Warming</label>
+                                </div>
+
+                                <div class="form-check mb-2">
+                                <input type="radio" name="charityGoal" value="Cancer Awareness" class="form-check-input" id="charityTwo"><label for="charityTwo" class="form-check-label">Cancer Awareness</label>
+                                </div>
+
+                                <div class="form-check mb-2">
+                                <input type="radio" name="charityGoal" value="World hunger" class="form-check-input" id="charityThree"><label for="charityThree" class="form-check-label">World hunger</label>
+                                </div>
+
+                                <div class="form-check mb-2">
+                                <input type="radio" name="charityGoal" value="Homelessness" class="form-check-input" id="charityFour"><label for="charityFour" class="form-check-label">Homelessness</label>
+                                </div>
+
+                                <div class="form-check mb-2">
+                                <input type="radio" name="charityGoal" value="Mental health awareness" class="form-check-input" id="charityFive"><label for="charityFive" class="form-check-label">Mental health awareness</label> 
+                                </div>
+                                <hr/>
+
+
+                                <div class="notes"><strong>Note:</strong> "monetary donations budget" is used for donating to a charity while the "random acts of kindness budget" might be used to buy someone a cup of coffee.</div>
+                
+                                <div class="fw-bold">What is your monthly budget for monetary donations? (if any)</div>
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button type='button' class="btn btn-dark btn-sm" id="monetaryDonationsBudget-minus-btn"><i class="fa fa-minus"></i></button>
+                                        </div>
+                                        <input type="number" name='monetaryDonationsBudget' id="monetaryDonationsBudget_qty_input" class="form-control form-control-sm" value="0" min="0">
+                                        <div class="input-group-prepend">
+                                            <button type='button' class="btn btn-dark btn-sm" id="monetaryDonationsBudget-plus-btn"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="fw-bold">What is your monthly budget for random acts of kindness? (if any)</div>
+                                           <div class="col-sm-4 col-sm-offset-4">
+                                               <div class="input-group mb-3">
+                                                   <div class="input-group-prepend">
+                                                       <button type='button' class="btn btn-dark btn-sm" id="randomActsBudget-minus-btn"><i class="fa fa-minus"></i></button>
+                                                   </div>
+                                                   <input type="number" name='randomActsBudget' id="randomActsBudget_qty_input" class="form-control form-control-sm" value="0" min="0">
+                                                   <div class="input-group-prepend">
+                                                       <button type='button' class="btn btn-dark btn-sm" id="randomActsBudget-plus-btn"><i class="fa fa-plus"></i></button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <hr/>
+
+                                    <button type="submit" class="form-control-submit-button" id='submit'>Submit</button>
+                                </form>
 
                         </div> <!-- end of text-box -->
                     </div> <!-- end of col -->
@@ -111,6 +167,110 @@
             </div> <!-- end of container -->
         </div> <!-- end of ex-basic-1 -->
         <!-- end of basic -->
+        <%} else{%>
+            <div class="ex-form-1 pt-5 pb-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-6 offset-xl-3">
+                            <div class="text-box mt-5 mb-5">
+                                <p class="mb-4">Fill out your preferences to generate curated, random goals.</p>
+                                <hr/>
+    
+                                <form id="updateForm">
+                                    <div class="fw-bold" id='charityGoal'>Which charity goal are you most interested in funding for?</div>
+    
+                                    <%if(questionare[0].charityGoal === 'Global Warming'){%>
+                                        <div class="form-check mb-2">
+                                        <input type="radio" name="charityGoal" value="Global Warming"  class="form-check-input" id="charityOne" checked required><label for="charityOne" class="form-check-label">Global Warming</label>
+                                        </div>
+                                    <%} else{%>
+                                        <div class="form-check mb-2">
+                                        <input type="radio" name="charityGoal" value="Global Warming"  class="form-check-input" id="charityOne" required><label for="charityOne" class="form-check-label">Global Warming</label>
+                                        </div>
+                                    <%}%>
+     
+                                    <%if(questionare[0].charityGoal === 'Cancer Awareness'){%>
+                                        <div class="form-check mb-2">
+                                        <input type="radio" name="charityGoal" value="Cancer Awareness" class="form-check-input" id="charityTwo" checked><label for="charityTwo" class="form-check-label">Cancer Awareness</label>
+                                        </div>
+                                    <%} else{%>
+                                        <div class="form-check mb-2">
+                                        <input type="radio" name="charityGoal" value="Cancer Awareness" class="form-check-input" id="charityTwo"><label for="charityTwo" class="form-check-label">Cancer Awareness</label>
+                                        </div>
+                                    <%}%>
+         
+                                    <%if(questionare[0].charityGoal === 'World Hunger'){%>
+                                        <div class="form-check mb-2">
+                                        <input type="radio" name="charityGoal" value="World Hunger" class="form-check-input" id="charityThree" checked><label for="charityThree" class="form-check-label">World Hunger</label>
+                                        </div>
+                                    <%} else{%>
+                                        <div class="form-check mb-2">
+                                        <input type="radio" name="charityGoal" value="World Hunger" class="form-check-input" id="charityThree"><label for="charityThree" class="form-check-label">World Hunger</label>
+                                        </div>
+                                    <%}%>
+
+                                    <%if(questionare[0].charityGoal === 'Homelessness'){%>
+                                        <div class="form-check mb-2">
+                                            <input type="radio" name="charityGoal" value="Homelessness" class="form-check-input" id="charityFour" checked><label for="charityFour" class="form-check-label">Homelessness</label>
+                                            </div>
+                                    <%} else{%>
+                                        <div class="form-check mb-2">
+                                            <input type="radio" name="charityGoal" value="Homelessness" class="form-check-input" id="charityFour"><label for="charityFour" class="form-check-label">Homelessness</label>
+                                            </div>
+                                    <%}%>
+
+                                    <%if(questionare[0].charityGoal === 'Mental Health Awareness'){%>
+                                        <div class="form-check mb-2">
+                                            <input type="radio" name="charityGoal" value="Mental Health Awareness" class="form-check-input" id="charityFive" checked><label for="charityFive" class="form-check-label">Mental Health Awareness</label> 
+                                            </div>
+                                            <hr/>
+                                    <%} else{%>
+                                        <div class="form-check mb-2">
+                                            <input type="radio" name="charityGoal" value="Mental Health Awareness" class="form-check-input" id="charityFive"><label for="charityFive" class="form-check-label">Mental Health Awareness</label> 
+                                            </div>
+                                            <hr/>
+                                    <%}%>
+    
+    
+                                    <div class="notes"><strong>Note:</strong> "monetary donations budget" is used for donating to a charity while the "random acts of kindness budget" might be used to buy someone a cup of coffee.</div>
+                    
+                                    <div class="fw-bold">What is your monthly budget for monetary donations? (if any)</div>
+                                    <div class="col-sm-4 col-sm-offset-4">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <button type='button' class="btn btn-dark btn-sm" id="monetaryDonationsBudget-minus-btn"><i class="fa fa-minus"></i></button>
+                                            </div>
+                                            <input type="number" name='monetaryDonationsBudget' id="monetaryDonationsBudget_qty_input" class="form-control form-control-sm" value="<%= questionare[0].monetaryDonationsBudget %>" min="0">
+                                            <div class="input-group-prepend">
+                                                <button type='button' class="btn btn-dark btn-sm" id="monetaryDonationsBudget-plus-btn"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="fw-bold">What is your monthly budget for random acts of kindness? (if any)</div>
+                                               <div class="col-sm-4 col-sm-offset-4">
+                                                   <div class="input-group mb-3">
+                                                       <div class="input-group-prepend">
+                                                           <button type='button' class="btn btn-dark btn-sm" id="randomActsBudget-minus-btn"><i class="fa fa-minus"></i></button>
+                                                       </div>
+                                                       <input type="number" name='randomActsBudget' id="randomActsBudget_qty_input" class="form-control form-control-sm" value="<%= questionare[0].randomActsBudget %>" min="0">
+                                                       <div class="input-group-prepend">
+                                                           <button type='button' class="btn btn-dark btn-sm" id="randomActsBudget-plus-btn"><i class="fa fa-plus"></i></button>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                               <hr/>
+    
+                                        <button type="submit" class="form-control-submit-button" id="update">Update</button>
+                                    </form>
+    
+                            </div> <!-- end of text-box -->
+                        </div> <!-- end of col -->
+                    </div> <!-- end of row -->
+                </div> <!-- end of container -->
+            </div> <!-- end of ex-basic-1 -->
+            <!-- end of basic -->
+        <%}%>
 
 
          <!-- Footer -->
@@ -171,5 +331,8 @@
         <script src="js/purecounter.min.js"></script> <!-- Purecounter counter for statistics numbers -->
         <script src="js/replaceme.min.js"></script> <!-- ReplaceMe for rotating text -->
         <script src="js/scripts.js"></script> <!-- Custom scripts -->
+        <script src="js/incrementbutton.js"></script> <!-- Custom scripts -->
+
+        <script src="questionare.js"></script> <!-- Event Listeners -->
     </body>
 </html>

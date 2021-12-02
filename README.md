@@ -46,6 +46,6 @@ Try out the site yourself at <a href="https://make-a-day.herokuapp.com/home">Mak
 * Calender from <a href="https://codepen.io/B8bop/pen/GhCAb">Codepen</a>
 * Design from <a href="https://inovatik.com/ioniq-saas-app-website-html-template.html">Inovatik</a>
 
-### Notes
+### Notes:
 
 More to be added and devloped soon!

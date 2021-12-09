@@ -48,4 +48,4 @@ Try out the site yourself at <a href="https://make-a-day.herokuapp.com/home">Mak
 
 ### Notes:
 
-More to be added and devloped soon!
+More to be added and developed soon!
